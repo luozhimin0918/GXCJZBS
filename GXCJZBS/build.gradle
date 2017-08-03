@@ -6,8 +6,8 @@ dependencies {
     compile project(':Lib_android_gif_drawable')
     compile project(':Lib_Fresco')
     compile project(':Lib_AndroidAsync')
-//    compile 'com.jakewharton:butterknife:8.4.0'
-//    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    //    compile 'com.jakewharton:butterknife:8.4.0'
+    //    apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     allprojects {
@@ -45,7 +45,7 @@ android {
         config {
             keyAlias 'cjdjczbs'
             keyPassword 'cjdjczbs'
-            storeFile file('D:/ketstore/直播室/cjdjczbs.jks')
+            storeFile file('./keystore/cjdjczbs.jks')
             storePassword 'cjdjczbs'
         }
     }
@@ -66,16 +66,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             signingConfig signingConfigs.config
         }
-//        debug {
-//            buildConfigField "boolean", "LOG_DEBUG", "true"//是否输出LOG信息
-//            signingConfig signingConfigs.config
-//            minifyEnabled false//混淆编译
-//            zipAlignEnabled true
-//            //移除无用的资源文件
-//            shrinkResources true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
-//        signingConfig signingConfigs.config
-//        }
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"//是否输出LOG信息
+            minifyEnabled false//混淆编译
+            zipAlignEnabled true
+            //移除无用的资源文件
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+             signingConfig signingConfigs.config
+        }
     }
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
