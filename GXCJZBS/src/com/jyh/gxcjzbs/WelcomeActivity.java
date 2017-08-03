@@ -20,6 +20,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.jyh.gxcjzbs.basePack.BaseActivity;
 import com.jyh.gxcjzbs.bean.ChatMsgEntity;
 import com.jyh.gxcjzbs.bean.KXTApplication;
 import com.jyh.gxcjzbs.bean.RoomRole;
@@ -47,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends BaseActivity {
 
     private KXTApplication application;
     LinearLayout rl_splash;
@@ -545,19 +546,10 @@ public class WelcomeActivity extends Activity {
         super.onDestroy();
     }
 
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("SplashScreen"); // 统计页面(仅有Activity的应用中SDK自动调用，不需要单独写)
-        MobclickAgent.onResume(this); // 统计时长
-    }
 
     public void onPause() {
         super.onPause();
         isEnter = true;
-        MobclickAgent.onPageEnd("SplashScreen"); // （仅有Activity的应用中SDK自动调用，不需要单独写）保证
-        // onPageEnd 在onPause
-        // 之前调用,因为 onPause 中会保存信息
-        MobclickAgent.onPause(this);
     }
 
     /**

@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.jyh.gxcjzbs.basePack.BaseActivity;
 import com.jyh.gxcjzbs.bean.KXTApplication;
 import com.jyh.gxcjzbs.common.constant.SpConstant;
 import com.jyh.gxcjzbs.common.utils.SPUtils;
@@ -36,7 +37,7 @@ import static com.jyh.gxcjzbs.common.constant.SpConstant.APPINFO_ALTERS_URL;
 import static com.jyh.gxcjzbs.common.constant.SpConstant.APPINFO_CJRL_URL;
 import static com.jyh.gxcjzbs.common.constant.SpConstant.APPINFO_HQ_URL;
 
-public class MainActivity extends FragmentActivity implements OnClickListener, OnFragmentListener {
+public class MainActivity extends BaseActivity implements OnClickListener, OnFragmentListener {
     private fragment_web fragment_flash, fragment_kxthq, fragment_data;
     private fragment_zb fragment_zb;
     private fragment_self fragment_self;
