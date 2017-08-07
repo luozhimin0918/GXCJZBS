@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
@@ -39,6 +39,7 @@ import com.jyh.gxcjzbs.GotyeLiveActivity;
 import com.jyh.gxcjzbs.Login_One;
 import com.jyh.gxcjzbs.R;
 import com.jyh.gxcjzbs.WebActivity;
+import com.jyh.gxcjzbs.adapter.MarketGridAdapter;
 import com.jyh.gxcjzbs.bean.KXTApplication;
 import com.jyh.gxcjzbs.bean.NavIndextEntity;
 import com.jyh.gxcjzbs.common.constant.SpConstant;
@@ -51,6 +52,8 @@ import com.jyh.gxcjzbs.common.utils.dialogutils.BounceTopEnter;
 import com.jyh.gxcjzbs.common.utils.dialogutils.NormalDialog;
 import com.jyh.gxcjzbs.common.my_interface.OnBtnClickL;
 import com.jyh.gxcjzbs.common.utils.dialogutils.SlideBottomExit;
+import com.jyh.gxcjzbs.view.RollDotViewPager;
+import com.jyh.gxcjzbs.view.RollViewPager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -75,6 +78,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private Bitmap bitmap;
     private View view;
     ConvenientBanner convenientBanner;
+    RollDotViewPager rollDotViewpager;
     private RequestQueue queue;
     private KXTApplication application;
     @Override
@@ -117,6 +121,9 @@ public class fragment_zb extends Fragment implements OnClickListener {
                         buttonShow=navinEntity.getData().getButton();
                         if(slideShow!=null&&slideShow.size()>0){
                             optionView();
+                        }
+                        if(buttonShow!=null&&buttonShow.size()>0){
+                            optionViewTwo();
                         }
                         Log.d("zb___",jsonObject.toString());
                     }else{
@@ -171,6 +178,31 @@ public class fragment_zb extends Fragment implements OnClickListener {
 
 
     }
+
+    private void optionViewTwo() {
+       /* for(int i=0;i<3;i++){
+            NavIndextEntity.DataBean.ButtonBean  buttonBean=new NavIndextEntity.DataBean.ButtonBean();
+            buttonBean.setImage("http://cdn0.108tec.com/gxsp/Uploads/Picture/2017-08-07/598801f1a584d.png");
+            buttonBean.setTitle("wotu"+i);
+            buttonBean.setUrl("wwww.baidu.com");
+            buttonShow.add(buttonBean);
+        }*/
+
+        rollDotViewpager.setShowPaddingLine(false);
+        RollViewPager recommendView = rollDotViewpager.getRollViewPager();
+        recommendView
+                .setGridMaxCount(4)
+                .setDataList(buttonShow)
+                .setGridViewItemData(new RollViewPager.GridViewItemData() {
+                    @Override
+                    public void itemData(List dataSubList, GridView gridView) {
+                        MarketGridAdapter adapter = new MarketGridAdapter(getContext(),dataSubList);
+                        gridView.setAdapter(adapter);
+                    }
+                });
+        rollDotViewpager.build();
+
+    }
     public class NetworkImageHolderView implements Holder<String> {
         private ImageView imageView;
 
@@ -206,6 +238,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private void findView(View view) {
         // TODO Auto-generated method stub
         convenientBanner= (ConvenientBanner) view.findViewById(R.id.convenientBanner);
+        rollDotViewpager= (RollDotViewPager) view.findViewById(R.id.rollDotViewpager);
         intent2 = new Intent(getActivity(), WebActivity.class);
     }
 
