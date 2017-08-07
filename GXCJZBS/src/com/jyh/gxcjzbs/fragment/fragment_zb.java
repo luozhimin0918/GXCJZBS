@@ -18,9 +18,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.alibaba.fastjson.JSON;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+
 import com.gensee.common.ServiceType;
 import com.gensee.entity.InitParam;
 import com.gotye.live.core.Code;
@@ -33,7 +40,9 @@ import com.jyh.gxcjzbs.Login_One;
 import com.jyh.gxcjzbs.R;
 import com.jyh.gxcjzbs.WebActivity;
 import com.jyh.gxcjzbs.bean.KXTApplication;
+import com.jyh.gxcjzbs.bean.NavIndextEntity;
 import com.jyh.gxcjzbs.common.constant.SpConstant;
+import com.jyh.gxcjzbs.common.constant.UrlConstant;
 import com.jyh.gxcjzbs.common.utils.LoginInfoUtils;
 import com.jyh.gxcjzbs.common.utils.SPUtils;
 import com.jyh.gxcjzbs.common.utils.ToastView;
@@ -42,6 +51,12 @@ import com.jyh.gxcjzbs.common.utils.dialogutils.BounceTopEnter;
 import com.jyh.gxcjzbs.common.utils.dialogutils.NormalDialog;
 import com.jyh.gxcjzbs.common.my_interface.OnBtnClickL;
 import com.jyh.gxcjzbs.common.utils.dialogutils.SlideBottomExit;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT;
 
@@ -50,8 +65,6 @@ import static android.content.Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT;
  */
 public class fragment_zb extends Fragment implements OnClickListener {
 
-    private ImageView imgJianjie, imgKufu;
-    private SimpleDraweeView live_bg;
     private Intent intent2;
 
     // Gotye视频所需参数
@@ -60,22 +73,25 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private ProgressDialog loginDialog;
 
     private Bitmap bitmap;
-    private GenericDraweeHierarchyBuilder builder;
     private View view;
-
+    ConvenientBanner convenientBanner;
+    private RequestQueue queue;
+    private KXTApplication application;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        builder = new GenericDraweeHierarchyBuilder(getResources());
-        builder.setPlaceholderImage(getResources().getDrawable(R.drawable.live_bg), ScalingUtils.ScaleType.FIT_XY);
+        application = (KXTApplication) getActivity().getApplication();
+        queue = application.getQueue();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        view = inflater.inflate(R.layout.fragment_zb, null);
+        view = inflater.inflate(R.layout.fragment_zb_new, null);
         findView(view);
+        netOk();
+
         view.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -84,18 +100,97 @@ public class fragment_zb extends Fragment implements OnClickListener {
                 joinLive();
             }
         });
-        setBg();
         return view;
+    }
+
+    private List<NavIndextEntity.DataBean.SlideshowBean> slideShow;
+    private List<NavIndextEntity.DataBean.ButtonBean> buttonShow;
+    private void netOk() {
+        JsonObjectRequest request = new JsonObjectRequest(UrlConstant.URL_NAV_INDEX, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+
+                    NavIndextEntity  navinEntity=JSON.parseObject(jsonObject.toString(),NavIndextEntity.class);
+                    if(navinEntity!=null&&navinEntity.getCode()==200){
+                        slideShow=navinEntity.getData().getSlideshow();
+                        buttonShow=navinEntity.getData().getButton();
+                        if(slideShow!=null&&slideShow.size()>0){
+                            optionView();
+                        }
+                        Log.d("zb___",jsonObject.toString());
+                    }else{
+                        Log.d("zb___","数据请求失败");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        queue.add(request);
+    }
+    private String[] images = {"http://img2.imgtn.bdimg.com/it/u=3093785514,1341050958&fm=21&gp=0.jpg",
+            "http://img2.3lian.com/2014/f2/37/d/40.jpg",
+            "http://img2.3lian.com/2014/f2/37/d/39.jpg",
+    };
+    private List<String> imageList=new ArrayList<>();
+    private void optionView() {
+        imageList.clear();
+        for(NavIndextEntity.DataBean.SlideshowBean jj:slideShow){
+            imageList.add(jj.getImage());
+
+        }
+        convenientBanner.startTurning(4000);
+//        convenientBanner.setPageTransformer(new AccordionTransformer());
+        convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+            @Override
+            public NetworkImageHolderView createHolder() {
+                return new NetworkImageHolderView();
+            }
+        },imageList)
+        .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
+        .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        intent2.putExtra(
+                                "url",
+                                slideShow.get(position).getUrl());
+                        intent2.putExtra("from", "main");
+                        intent2.putExtra("title", slideShow.get(position).getTitle());
+                        startActivity(intent2);
+                    }
+                });;
+
+
+    }
+    public class NetworkImageHolderView implements Holder<String> {
+        private ImageView imageView;
+
+        @Override
+        public View createView(Context context) {
+            imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            return imageView;
+        }
+        @Override
+        public void UpdateUI(Context context, int position, String data) {
+            imageView.setImageResource(R.drawable.ic_default_adimage);
+            ImageLoader.getInstance().displayImage(data,imageView);
+        }
     }
 
     /**
      * 设置背景图
      */
-    private void setBg() {
-        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(getResources());
-        builder.setPlaceholderImage(getResources().getDrawable(R.drawable.live_bg), ScalingUtils.ScaleType.FIT_XY);
-        live_bg.setHierarchy(builder.build());
-    }
+
 
     @Override
     public void onDestroyView() {
@@ -110,12 +205,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
 
     private void findView(View view) {
         // TODO Auto-generated method stub
-        imgJianjie = (ImageView) view.findViewById(R.id.img_jianjie);
-        imgKufu = (ImageView) view.findViewById(R.id.img_kefu);
-        live_bg = (SimpleDraweeView) view.findViewById(R.id.live_bg);
-
-        imgJianjie.setOnClickListener(this);
-        imgKufu.setOnClickListener(this);
+        convenientBanner= (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         intent2 = new Intent(getActivity(), WebActivity.class);
     }
 
@@ -123,7 +213,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
-            case R.id.img_jianjie:
+         /*   case R.id.img_jianjie:
                 intent2.putExtra(
                         "url",
                         SPUtils.getString(getContext(), SpConstant.APPINFO_SUMMARY_URL));
@@ -138,7 +228,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
                 intent2.putExtra("from", "main");
                 intent2.putExtra("title", "联系客服");
                 startActivity(intent2);
-                break;
+                break;*/
             default:
                 break;
         }

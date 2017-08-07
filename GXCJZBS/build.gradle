@@ -23,6 +23,7 @@ dependencies {
     compile files('libs/gensee_hb.jar')
     compile files('libs/gensee_rtmpplayer.jar')
     compile project(':convenientbanner')
+    compile files('libs/glide-3.7.0.jar')
 }
 android {
 //

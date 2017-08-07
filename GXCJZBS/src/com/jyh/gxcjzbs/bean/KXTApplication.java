@@ -12,9 +12,15 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.gensee.entity.InitParam;
 import com.gotye.live.core.GLCore;
 import com.gotye.live.player.GLPlayer;
+import com.jyh.gxcjzbs.R;
 import com.jyh.gxcjzbs.service.ImageService;
 import com.jyh.gxcjzbs.common.utils.CrashHandler;
 import com.jyh.gxcjzbs.common.utils.emoji_utils.FaceConversionUtil;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -172,6 +178,21 @@ public class KXTApplication extends Application {
         // "eaa6da7a910e422e8279677470a1eb9f");// 传入AK
         core.init(this, bundle);
         player.init(core);
+        //初始化网络图片缓存库
+
+        //网络图片例子,结合常用的图片缓存库UIL,你可以根据自己需求自己换其他网络图片库
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
+                showImageForEmptyUri(R.drawable.ic_default_adimage)
+                .cacheInMemory(true).cacheOnDisk(true).build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext()).defaultDisplayImageOptions(defaultOptions)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+        ImageLoader.getInstance().init(config);
+
     }
 
     public void addAct(Activity act) {

@@ -34,6 +34,8 @@ public class UrlConstant {
     public static final String URL_SEND = URL_BASE + "/Appapi/Chat/handle";
     //检查版本信息
     public static final String URL_VERSION = URL_BASE + "/Appapi/Index/version";
+    //首页信息
+    public static final String URL_NAV_INDEX=URL_BASE + "/Appapi/Nav/index";
 
     /**
      * 私聊记录
