@@ -1,4 +1,4 @@
-include ':Lib_Fresco'
+include ':Lib_Fresco', ':convenientbanner'
 include ':Lib_autobahn'
 include ':Lib_AndroidAsync'
 include ':GXCJZBS'
