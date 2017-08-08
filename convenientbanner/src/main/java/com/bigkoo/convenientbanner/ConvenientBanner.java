@@ -154,6 +154,10 @@ public class ConvenientBanner<T> extends LinearLayout {
         mPointViews.clear();
         this.page_indicatorId = page_indicatorId;
         if(mDatas==null)return this;
+        if(mDatas!=null&&mDatas.size()==1){
+            setCanLoop(false);
+            return  this;
+        }
         for (int count = 0; count < mDatas.size(); count++) {
             // 翻页指示的点
             ImageView pointView = new ImageView(getContext());
