@@ -393,6 +393,8 @@ public class fragment_zb extends Fragment implements OnClickListener {
                     Intent intent = new Intent(getContext(), Login_One.class);
                     if(fromeTo.equals("zb")){
                         intent.putExtra("from", "zb");
+                    }else{
+                        intent.putExtra("from", "null");
                     }
 
 

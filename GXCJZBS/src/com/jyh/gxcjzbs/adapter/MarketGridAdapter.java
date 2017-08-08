@@ -76,7 +76,7 @@ public class MarketGridAdapter extends BaseListAdapter<NavIndextEntity.DataBean.
                List<String>  banAceessRole = dataList.get(position).getBan_access_role();
                 String loginRid = SPUtils.getString(mContext, SpConstant.USERINFO_LOGIN_RID);//
                 if(banAceessRole!=null&&banAceessRole.size()>0&&banAceessRole.contains(loginRid)){
-                    showLoginDialog("nnn");
+                    showLoginDialog("null");
 
                 }else {
                     intent2.putExtra(
@@ -137,6 +137,8 @@ public class MarketGridAdapter extends BaseListAdapter<NavIndextEntity.DataBean.
                     Intent intent = new Intent(mContext, Login_One.class);
                     if(fromeTo.equals("zb")){
                         intent.putExtra("from", "zb");
+                    }else{
+                        intent.putExtra("from", "null");
                     }
 
                     mContext.startActivity(intent);

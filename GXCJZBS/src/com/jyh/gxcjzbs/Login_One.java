@@ -96,9 +96,13 @@ public class Login_One extends Activity implements OnClickListener {
             } else if ("self".equals(from)) {
                 isFromLive = false;
                 isWelcome = false;
-            } else {
-                isFromLive = false;
+            } else  if ("null".equals(from)) {
+                isFromLive = true;
                 isWelcome = false;
+            } else {
+                    isFromLive = false;
+                    isWelcome = false;
+
             }
         } else {
             isFromLive = false;
