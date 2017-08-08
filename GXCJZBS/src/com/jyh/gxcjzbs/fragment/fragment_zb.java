@@ -45,6 +45,7 @@ import com.jyh.gxcjzbs.bean.NavIndextEntity;
 import com.jyh.gxcjzbs.common.constant.SpConstant;
 import com.jyh.gxcjzbs.common.constant.UrlConstant;
 import com.jyh.gxcjzbs.common.utils.LoginInfoUtils;
+import com.jyh.gxcjzbs.common.utils.NetworkCenter;
 import com.jyh.gxcjzbs.common.utils.SPUtils;
 import com.jyh.gxcjzbs.common.utils.ToastView;
 import com.jyh.gxcjzbs.common.utils.dialogutils.BaseAnimatorSet;
@@ -52,6 +53,7 @@ import com.jyh.gxcjzbs.common.utils.dialogutils.BounceTopEnter;
 import com.jyh.gxcjzbs.common.utils.dialogutils.NormalDialog;
 import com.jyh.gxcjzbs.common.my_interface.OnBtnClickL;
 import com.jyh.gxcjzbs.common.utils.dialogutils.SlideBottomExit;
+import com.jyh.gxcjzbs.view.PageLoadLayout;
 import com.jyh.gxcjzbs.view.RollDotViewPager;
 import com.jyh.gxcjzbs.view.RollViewPager;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -79,6 +81,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private View view;
     ConvenientBanner convenientBanner;
     RollDotViewPager rollDotViewpager;
+    PageLoadLayout pageLoadLayout;
     ImageView  playBtn;
     private RequestQueue queue;
     private KXTApplication application;
@@ -95,6 +98,13 @@ public class fragment_zb extends Fragment implements OnClickListener {
         // TODO Auto-generated method stub
         view = inflater.inflate(R.layout.fragment_zb_new, null);
         findView(view);
+        pageLoadLayout.setOnAfreshLoadListener(new PageLoadLayout.OnAfreshLoadListener() {
+            @Override
+            public void OnAfreshLoad() {
+                netOk();
+            }
+        });
+        pageLoadLayout.startLoading();
         netOk();
 
         playBtn.setOnClickListener(new OnClickListener() {
@@ -111,6 +121,10 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private static List<NavIndextEntity.DataBean.SlideshowBean> slideShow;
     private List<NavIndextEntity.DataBean.ButtonBean> buttonShow;
     private void netOk() {
+        if(!NetworkCenter.isNetworkConnected(getContext())){
+            pageLoadLayout.loadError("请检查网络连接");
+            return;
+        }
         JsonObjectRequest request = new JsonObjectRequest(UrlConstant.URL_NAV_INDEX, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
@@ -126,20 +140,23 @@ public class fragment_zb extends Fragment implements OnClickListener {
                         if(buttonShow!=null&&buttonShow.size()>0){
                             optionViewTwo();
                         }
+                        pageLoadLayout.loadSuccess();
                         Log.d("zb___",jsonObject.toString());
                     }else{
                         Log.d("zb___","数据请求失败");
+                        pageLoadLayout.loadNoData("暂无数据");
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    pageLoadLayout.loadNoData("暂无数据");
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                pageLoadLayout.loadError("数据请求失败");
             }
         });
         queue.add(request);
@@ -248,6 +265,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
         // TODO Auto-generated method stub
         convenientBanner= (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         rollDotViewpager= (RollDotViewPager) view.findViewById(R.id.rollDotViewpager);
+        pageLoadLayout=(PageLoadLayout)view.findViewById(R.id.page_load);
         playBtn= (ImageView) view.findViewById(R.id.playBtn);
         intent2 = new Intent(getActivity(), WebActivity.class);
     }
