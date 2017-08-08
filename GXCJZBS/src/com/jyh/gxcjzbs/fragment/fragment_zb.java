@@ -79,6 +79,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private View view;
     ConvenientBanner convenientBanner;
     RollDotViewPager rollDotViewpager;
+    ImageView  playBtn;
     private RequestQueue queue;
     private KXTApplication application;
     @Override
@@ -96,7 +97,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
         findView(view);
         netOk();
 
-        view.setOnClickListener(new OnClickListener() {
+        playBtn.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -239,6 +240,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
         // TODO Auto-generated method stub
         convenientBanner= (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         rollDotViewpager= (RollDotViewPager) view.findViewById(R.id.rollDotViewpager);
+        playBtn= (ImageView) view.findViewById(R.id.playBtn);
         intent2 = new Intent(getActivity(), WebActivity.class);
     }
 
