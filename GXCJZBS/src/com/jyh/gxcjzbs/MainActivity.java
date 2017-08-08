@@ -156,7 +156,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnFra
                         // 如果MessageFragment不为空，则直接将它显示出来
                         transaction.show(fragment_zb);
                     }
-                    main_zt_color.setBackgroundResource(R.drawable.live_bg);
+                    main_zt_color.setBackgroundColor(Color.parseColor("#ffffff"));
+//                    main_zt_color.setBackgroundResource(R.drawable.live_bg);
                     maincolor = true;
                     break;
                 case 1:
