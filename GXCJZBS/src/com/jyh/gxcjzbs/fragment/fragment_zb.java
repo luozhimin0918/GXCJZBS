@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.RequestQueue;
@@ -47,6 +48,7 @@ import com.jyh.gxcjzbs.common.constant.UrlConstant;
 import com.jyh.gxcjzbs.common.utils.LoginInfoUtils;
 import com.jyh.gxcjzbs.common.utils.NetworkCenter;
 import com.jyh.gxcjzbs.common.utils.SPUtils;
+import com.jyh.gxcjzbs.common.utils.SystemUtil;
 import com.jyh.gxcjzbs.common.utils.ToastView;
 import com.jyh.gxcjzbs.common.utils.dialogutils.BaseAnimatorSet;
 import com.jyh.gxcjzbs.common.utils.dialogutils.BounceTopEnter;
@@ -82,6 +84,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
     ConvenientBanner convenientBanner;
     RollDotViewPager rollDotViewpager;
     PageLoadLayout pageLoadLayout;
+    LinearLayout rollLiner;
     ImageView  playBtn;
     private RequestQueue queue;
     private KXTApplication application;
@@ -213,6 +216,12 @@ public class fragment_zb extends Fragment implements OnClickListener {
             buttonBean.setUrl("wwww.baidu.com");
             buttonShow.add(buttonBean);
         }*/
+        rollDotViewpager=new RollDotViewPager(getContext());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                SystemUtil.dp2px(getContext(), 110));
+
+        rollDotViewpager.setLayoutParams(lp);
 
         rollDotViewpager.setShowPaddingLine(false);
         RollViewPager recommendView = rollDotViewpager.getRollViewPager();
@@ -227,6 +236,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
                     }
                 });
         rollDotViewpager.build();
+        rollLiner.addView(rollDotViewpager);
 
     }
     public class NetworkImageHolderView implements Holder<String> {
@@ -264,8 +274,8 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private void findView(View view) {
         // TODO Auto-generated method stub
         convenientBanner= (ConvenientBanner) view.findViewById(R.id.convenientBanner);
-        rollDotViewpager= (RollDotViewPager) view.findViewById(R.id.rollDotViewpager);
         pageLoadLayout=(PageLoadLayout)view.findViewById(R.id.page_load);
+        rollLiner= (LinearLayout) view.findViewById(R.id.rollLiner);
         playBtn= (ImageView) view.findViewById(R.id.playBtn);
         intent2 = new Intent(getActivity(), WebActivity.class);
     }
