@@ -175,6 +175,9 @@ public class fragment_zb extends Fragment implements OnClickListener {
             imageList.add(jj.getImage());
 
         }
+        if(imageList!=null&&imageList.size()==1){
+            convenientBanner.setCanLoop(false);
+        }
         convenientBanner.startTurning(4000);
 //        convenientBanner.setPageTransformer(new AccordionTransformer());
         convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
