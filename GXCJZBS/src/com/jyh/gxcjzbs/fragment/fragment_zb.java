@@ -108,7 +108,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
         return view;
     }
 
-    private List<NavIndextEntity.DataBean.SlideshowBean> slideShow;
+    private static List<NavIndextEntity.DataBean.SlideshowBean> slideShow;
     private List<NavIndextEntity.DataBean.ButtonBean> buttonShow;
     private void netOk() {
         JsonObjectRequest request = new JsonObjectRequest(UrlConstant.URL_NAV_INDEX, null, new Response.Listener<JSONObject>() {
@@ -168,12 +168,20 @@ public class fragment_zb extends Fragment implements OnClickListener {
                 .setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        intent2.putExtra(
-                                "url",
-                                slideShow.get(position).getUrl());
-                        intent2.putExtra("from", "main");
-                        intent2.putExtra("title", slideShow.get(position).getTitle());
-                        startActivity(intent2);
+                        List<String>  banAccessRole =slideShow.get(position).getBan_access_role();
+                        String loginRid = SPUtils.getString(getContext(), SpConstant.USERINFO_LOGIN_RID);//
+                        if(banAccessRole!=null&&banAccessRole.size()>0&&banAccessRole.contains(loginRid)){
+                            showLoginDialog("null");
+
+                        }else{
+                            intent2.putExtra(
+                                    "url",
+                                    slideShow.get(position).getUrl());
+                            intent2.putExtra("from", "main");
+                            intent2.putExtra("title", slideShow.get(position).getTitle());
+                            startActivity(intent2);
+                        }
+
                     }
                 });;
 
@@ -283,7 +291,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
                     attemptLogin();
             }
         } else {
-            showLoginDialog();
+            showLoginDialog("zb");
         }
     }
 
@@ -345,7 +353,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
     private BaseAnimatorSet bas_in;
     private BaseAnimatorSet bas_out;
 
-    private void showLoginDialog() {
+    private void showLoginDialog(final String fromeTo) {
         bas_in = new BounceTopEnter();
         bas_out = new SlideBottomExit();
         final NormalDialog dialog = new NormalDialog(getContext());
@@ -383,7 +391,11 @@ public class fragment_zb extends Fragment implements OnClickListener {
                 dialog.dismiss();
                 if (!LoginInfoUtils.isLogin(getContext())) {
                     Intent intent = new Intent(getContext(), Login_One.class);
-                    intent.putExtra("from", "zb");
+                    if(fromeTo.equals("zb")){
+                        intent.putExtra("from", "zb");
+                    }
+
+
                     startActivity(intent);
                 }
             }

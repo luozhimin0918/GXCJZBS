@@ -334,6 +334,7 @@ public class WelcomeActivity extends BaseActivity {
 
                     SPUtils.save(getApplicationContext(), SpConstant.USERINFO_NAME, userinfoJob.getString("name"));
                     SPUtils.save(getApplicationContext(), SpConstant.USERINFO_RID, userinfoJob.getString("rid"));
+                    SPUtils.save(getApplicationContext(),SpConstant.USERINFO_LOGIN_RID,userinfoJob.getString("rid"));
                     SPUtils.save(getApplicationContext(), SpConstant.USERINFO_UID, userinfoJob.getString("id"));
 
                     SPUtils.save(getApplicationContext(), SpConstant.VIDEO_TYPE, videoinfoJob.getString("type"));

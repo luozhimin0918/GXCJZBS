@@ -2,7 +2,9 @@ package com.jyh.gxcjzbs.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,19 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.jyh.gxcjzbs.Login_One;
 import com.jyh.gxcjzbs.R;
 import com.jyh.gxcjzbs.WebActivity;
 import com.jyh.gxcjzbs.bean.NavIndextEntity;
 import com.jyh.gxcjzbs.bean.UserBean;
+import com.jyh.gxcjzbs.common.constant.SpConstant;
+import com.jyh.gxcjzbs.common.my_interface.OnBtnClickL;
+import com.jyh.gxcjzbs.common.utils.LoginInfoUtils;
+import com.jyh.gxcjzbs.common.utils.SPUtils;
+import com.jyh.gxcjzbs.common.utils.dialogutils.BaseAnimatorSet;
+import com.jyh.gxcjzbs.common.utils.dialogutils.BounceTopEnter;
+import com.jyh.gxcjzbs.common.utils.dialogutils.NormalDialog;
+import com.jyh.gxcjzbs.common.utils.dialogutils.SlideBottomExit;
 
 import java.util.List;
 
@@ -62,19 +73,77 @@ public class MarketGridAdapter extends BaseListAdapter<NavIndextEntity.DataBean.
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               List<String>  banAceessRole = dataList.get(position).getBan_access_role();
+                String loginRid = SPUtils.getString(mContext, SpConstant.USERINFO_LOGIN_RID);//
+                if(banAceessRole!=null&&banAceessRole.size()>0&&banAceessRole.contains(loginRid)){
+                    showLoginDialog("nnn");
 
-                intent2.putExtra(
-                        "url",
-                        dataList.get(position).getUrl());
-                intent2.putExtra("from", "main");
-                intent2.putExtra("title", dataList.get(position).getTitle());
-                mContext.startActivity(intent2);
+                }else {
+                    intent2.putExtra(
+                            "url",
+                            dataList.get(position).getUrl());
+                    intent2.putExtra("from", "main");
+                    intent2.putExtra("title", dataList.get(position).getTitle());
+                    mContext.startActivity(intent2);
+                }
             }
         });
 
         return convertView;
     }
+    /**
+     * 显示登录Dialog
+     */
+    private BaseAnimatorSet bas_in;
+    private BaseAnimatorSet bas_out;
 
+    private void showLoginDialog(final String fromeTo) {
+        bas_in = new BounceTopEnter();
+        bas_out = new SlideBottomExit();
+        final NormalDialog dialog = new NormalDialog(mContext);
+        dialog.isTitleShow(true)
+                // 设置背景颜色
+                .bgColor(Color.parseColor("#383838"))
+                // 设置dialog角度
+                .cornerRadius(5)
+                // 设置内容
+                .content("您好,您的权限不够,请先登录").title("温馨提示")
+                // 设置居中
+                .contentGravity(Gravity.CENTER)
+                // 设置内容字体颜色
+                .contentTextColor(Color.parseColor("#ffffff"))
+                // 设置线的颜色
+                .dividerColor(Color.parseColor("#222222"))
+                // 设置字体
+                .btnTextSize(15.5f, 15.5f)
+                // 设置取消确定颜色
+                .btnTextColor(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"))//
+                .btnPressColor(Color.parseColor("#2B2B2B"))//
+                .widthScale(0.85f)//
+                .showAnim(bas_in)//
+                .dismissAnim(bas_out)//
+                .show();
+
+        dialog.setOnBtnClickL(new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                dialog.dismiss();
+            }
+        }, new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                dialog.dismiss();
+                if (!LoginInfoUtils.isLogin(mContext)) {
+                    Intent intent = new Intent(mContext, Login_One.class);
+                    if(fromeTo.equals("zb")){
+                        intent.putExtra("from", "zb");
+                    }
+
+                    mContext.startActivity(intent);
+                }
+            }
+        });
+    }
     class ViewHolder {
         private TextView nameTv;
         private ImageView photoIv;
