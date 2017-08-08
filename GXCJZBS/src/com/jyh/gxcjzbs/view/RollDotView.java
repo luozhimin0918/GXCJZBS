@@ -45,7 +45,7 @@ public class RollDotView extends View {
         circlePaint.setStyle(Paint.Style.FILL);
 
         circleSize = SystemUtil.dp2px(getContext(), 3.0f);
-        circlePadding = SystemUtil.dp2px(getContext(), 2.5f);
+        circlePadding = SystemUtil.dp2px(getContext(), 5.0f);
 
     }
 
