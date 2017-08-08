@@ -62,11 +62,11 @@ public class MarketGridAdapter extends BaseListAdapter<NavIndextEntity.DataBean.
         final NavIndextEntity.DataBean.ButtonBean userBean = dataList.get(position);
         mViewHolder.nameTv.setText(userBean.getTitle());
         try {
-            Glide.with(mContext).load(userBean.getImage()).error(R.drawable.ic_default_adimage).placeholder(R.drawable.ic_default_adimage).into
+            Glide.with(mContext).load(userBean.getImage()).error(R.drawable.icon_default).placeholder(R.drawable.icon_default).into
                     (mViewHolder.photoIv);
         } catch (Exception e) {
             e.printStackTrace();
-            Glide.with(mContext).load(R.drawable.ic_default_adimage).into(mViewHolder.photoIv);
+            Glide.with(mContext).load(R.drawable.icon_default).into(mViewHolder.photoIv);
         }
 
 

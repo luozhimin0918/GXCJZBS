@@ -79,8 +79,8 @@
     <color name="line1">#FF6600</color>
     <color name="line2">#242c3c</color>
 
-    <color name="selectedPointColor">#c2c2c2</color>
-    <color name="unselectedPointColor">#e5e5e5</color>
+    <color name="selectedPointColor">#000000</color>
+    <color name="unselectedPointColor">#999999</color>
     <color name="line_color2">#fff7f7f7</color>
 
 
