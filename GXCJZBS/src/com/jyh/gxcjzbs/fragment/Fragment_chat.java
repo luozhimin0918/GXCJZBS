@@ -198,6 +198,9 @@ public class Fragment_chat extends Fragment {
                         } catch (NullPointerException e){
                             i=15;
                         }
+                        if(faceRelativeLayout.getIsCaitiao()){
+                            faceRelativeLayout.setCansend(true);
+                        }
                     }
                     i = i - 1;
                     mtv_send.setText("" + i);
@@ -302,6 +305,16 @@ public class Fragment_chat extends Fragment {
             }
         }, 1 * 1000, 1 * 1000/* 表示1000毫秒之後，每隔1000毫秒執行一次 */);
     }
+    private void setTimerTaskTwo() {
+        i = Integer.parseInt(SPUtils.getString(getContext(), SpConstant.USERINFO_LIMIT_COLORBAR_TIME)) + 1;
+        mtv_send.setText("" + (i - 1));
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.sendEmptyMessage(2);
+            }
+        }, 1 * 1000, 1 * 1000/* 表示1000毫秒之後，每隔1000毫秒執行一次 */);
+    }
 
     private void send() {
         getToken();
@@ -398,6 +411,15 @@ public class Fragment_chat extends Fragment {
                             }
                         }
                         rl_bottom.setVisibility(View.GONE);
+
+                        if(faceRelativeLayout.getIsCaitiao()){
+                            timer = new Timer();
+                            setTimerTaskTwo();
+                            mBtnSend.setVisibility(View.INVISIBLE);
+                            mtv_send.setVisibility(View.VISIBLE);
+                        }
+
+
                     } else if ("401".equals(arg0.getString("code"))) {
                         ToastView.makeText(application, "消息发送失败,Token已过期");
                     } else {

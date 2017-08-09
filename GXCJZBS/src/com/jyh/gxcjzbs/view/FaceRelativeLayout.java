@@ -718,15 +718,25 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                         .parseInt(SPUtils.getString(context, SpConstant.USERINFO_LIMIT_COLORBAR_TIME)) + 1;
                 et_sendmessage.setText("");
                 timer = new Timer();
-                setTimerTask();
+//                setTimerTask();
                 AppendSpanString(emoji);
                 EventBus.getDefault().post(EventBusBean.SEND_CHATMSG);
+                isCt=true;
                 cansend = false;
             } else {
-                ToastView.makeText(context, "还剩" + i + "秒");
+                ToastView.makeText(context, "倒计时中");
             }
 
         }
+    }
+
+    public   void setCansend(Boolean cansend){
+        this.cansend=cansend;
+        this.isCt=false;
+    }
+    private  boolean isCt;
+    public  boolean getIsCaitiao(){
+        return  isCt;
     }
 
     private void setTimerTask() {
