@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/play_bg"
-                    android:layout_height="240dp" />
+                    android:layout_height="245dp" />
                 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="12dp"
