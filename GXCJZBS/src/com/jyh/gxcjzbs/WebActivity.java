@@ -27,6 +27,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -209,6 +210,7 @@ public class WebActivity extends Activity {
 	}
 
 	private TextView EQCodeView,SaveBimap,popuwoindow_cancel;
+	private RelativeLayout bgWai;
 	private String EQResult = "";
 	private Bitmap bitmaps = null;
 	private void showPopupWindow(View view, String url) {
@@ -216,6 +218,7 @@ public class WebActivity extends Activity {
 		final PopupWindow popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 		EQCodeView = (TextView) contentView.findViewById(R.id.popuwoindow_eqCode);
 		SaveBimap=(TextView) contentView.findViewById(R.id.saveBimap);
+		bgWai= (RelativeLayout) contentView.findViewById(R.id.bgWai);
 		popuwoindow_cancel=(TextView) contentView.findViewById(R.id.popuwoindow_cancel);
 		EQCodeView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -252,6 +255,12 @@ public class WebActivity extends Activity {
 			}
 		});
 		popuwoindow_cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				popupWindow.dismiss();
+			}
+		});
+		bgWai.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				popupWindow.dismiss();
