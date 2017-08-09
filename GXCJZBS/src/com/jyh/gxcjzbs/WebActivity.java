@@ -4,10 +4,19 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -16,11 +25,26 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.zxing.Result;
 import com.jyh.gxcjzbs.common.constant.SpConstant;
 import com.jyh.gxcjzbs.common.utils.SPUtils;
+import com.jyh.gxcjzbs.common.utils.ScanningImageTools;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Date;
 
 public class WebActivity extends Activity {
 	private WebView webView;
@@ -35,6 +59,7 @@ public class WebActivity extends Activity {
 	private ProgressBar progressBar;
 
 	private String url;
+	private String imageUrl;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -142,6 +167,23 @@ public class WebActivity extends Activity {
 			}
 		});
 
+		webView.setOnLongClickListener(new View.OnLongClickListener() {
+
+			public boolean onLongClick(View v) {
+				WebView.HitTestResult result = ((WebView) v).getHitTestResult();
+				if (null != result) {
+					int type = result.getType();
+					if (type == WebView.HitTestResult.IMAGE_TYPE
+							|| type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+						imageUrl = result.getExtra();
+						Log.e("TAG", "image -- " + imageUrl);
+						showPopupWindow(webView, imageUrl);
+					}
+				}
+				return false;
+			}
+		});
+
 		webView.loadUrl(url);
 
 	}
@@ -166,4 +208,167 @@ public class WebActivity extends Activity {
 		}
 	}
 
+	private TextView EQCodeView,SaveBimap,popuwoindow_cancel;
+	private String EQResult = "";
+	private Bitmap bitmaps = null;
+	private void showPopupWindow(View view, String url) {
+		View contentView = View.inflate(this, R.layout.popuwoindow_item, null);
+		final PopupWindow popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+		EQCodeView = (TextView) contentView.findViewById(R.id.popuwoindow_eqCode);
+		SaveBimap=(TextView) contentView.findViewById(R.id.saveBimap);
+		popuwoindow_cancel=(TextView) contentView.findViewById(R.id.popuwoindow_cancel);
+		EQCodeView.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (EQResult == null || "".equals(EQResult))
+					return;
+				Log.e("TAG", "二维码的地址 -- " + EQResult);
+				if(EQResult.startsWith("http://weixin.qq.com/r")){
+					Intent intent = null;
+					try {
+						intent = Intent.parseUri("weixin://", Intent.URI_INTENT_SCHEME);
+						startActivity(intent);
+					} catch (URISyntaxException e) {
+						e.printStackTrace();
+					}catch (Exception e){
+						e.printStackTrace();
+						Toast.makeText(getApplicationContext(),"未安装此应用",Toast.LENGTH_SHORT).show();
+					}
+				}else{
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(EQResult));
+					startActivity(intent);
+				}
+				popupWindow.dismiss();
+//				Toast.makeText(WebActivity.this, EQResult, Toast.LENGTH_LONG).show();
+			}
+		});
+		SaveBimap.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (null != imageUrl) {
+					popupWindow.dismiss();
+					new SaveImage().execute(); // Android 4.0以后要使用线程来访问网络
+				}
+			}
+		});
+		popuwoindow_cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				popupWindow.dismiss();
+			}
+		});
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		//popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.selectmenu_bg_downward));
+		popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+		ImageLoader.getInstance().loadImage(url, new ImageLoadingListener() {
+			public void onLoadingStarted(String imageUri, View view) {
+			}
+			public void onLoadingFailed(String imageUri, View view,
+										FailReason failReason) {
+			}
+			public void onLoadingComplete(String imageUri, View view,
+										  Bitmap loadedImage) {
+				// TODO Auto-generated method stub
+				if (loadedImage == null)
+					return;
+				bitmaps = loadedImage;
+				ScanningImageTools.scanningImage(loadedImage,
+						new ScanningImageTools.IZCodeCallBack() {
+							public void ZCodeCallBackUi(Result result) {
+								if (result == null) {
+									handler.sendEmptyMessage(0);
+								} else {
+									handler.sendEmptyMessage(1);
+									EQResult = ScanningImageTools.recode(result.toString());
+								}
+							}
+						});
+			}
+			public void onLoadingCancelled(String imageUri, View view) {
+			}
+		});
+	}
+
+	public void setVISIBLE(View v, boolean falg) {
+		if (falg) {
+			if (View.GONE == v.getVisibility()) {
+				v.setVisibility(View.VISIBLE);
+			}
+		} else {
+			if (View.VISIBLE == v.getVisibility()) {
+				v.setVisibility(View.GONE);
+			}
+		}
+	}
+	Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (EQCodeView == null)
+				return;
+			switch (msg.what) {
+				case 0:
+					setVISIBLE(EQCodeView, false);
+					break;
+				case 1:
+					setVISIBLE(EQCodeView, true);
+					break;
+				case 2:
+					break;
+				default:
+					break;
+			}
+		}
+	};
+	/***
+	 * 功能：用线程保存图片
+	 *
+	 * @author wangyp
+	 *
+	 */
+	private class SaveImage extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			String result = "";
+			try {
+				String sdcard = Environment.getExternalStorageDirectory()
+						.toString();
+				File file = new File(sdcard + "/Download");
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				int idx = imageUrl.lastIndexOf(".");
+				String ext = imageUrl.substring(idx);
+				file = new File(sdcard + "/Download/" + new Date().getTime()
+						+ ext);
+				InputStream inputStream = null;
+				URL url = new URL(imageUrl);
+				HttpURLConnection conn = (HttpURLConnection) url
+						.openConnection();
+				conn.setRequestMethod("GET");
+				conn.setConnectTimeout(20000);
+				if (conn.getResponseCode() == 200) {
+					inputStream = conn.getInputStream();
+				}
+				byte[] buffer = new byte[4096];
+				int len = 0;
+				FileOutputStream outStream = new FileOutputStream(file);
+				while ((len = inputStream.read(buffer)) != -1) {
+					outStream.write(buffer, 0, len);
+				}
+				outStream.close();
+				result = "图片已保存至：" + file.getAbsolutePath();
+				sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+						Uri.fromFile(file)));
+			} catch (Exception e) {
+				result = "保存失败！" + e.getLocalizedMessage();
+			}
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+		}
+	}
 }

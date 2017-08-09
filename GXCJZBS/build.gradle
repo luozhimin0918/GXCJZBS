@@ -24,6 +24,7 @@ dependencies {
     compile files('libs/gensee_rtmpplayer.jar')
     compile project(':convenientbanner')
     compile 'com.pnikosis:materialish-progress:1.7'
+    compile files('libs/core_zxing.jar')
 }
 android {
 //
