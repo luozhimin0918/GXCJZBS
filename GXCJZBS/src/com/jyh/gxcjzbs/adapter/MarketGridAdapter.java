@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,12 +80,13 @@ public class MarketGridAdapter extends BaseListAdapter<NavIndextEntity.DataBean.
                     showLoginDialog("null");
 
                 }else {
-                    intent2.putExtra(
-                            "url",
-                            dataList.get(position).getUrl());
-                    intent2.putExtra("from", "main");
-                    intent2.putExtra("title", dataList.get(position).getTitle());
-                    mContext.startActivity(intent2);
+                    if(!TextUtils.isEmpty(dataList.get(position).getUrl())){
+                        intent2.putExtra("url", dataList.get(position).getUrl());
+                        intent2.putExtra("from", "main");
+                        intent2.putExtra("title", dataList.get(position).getTitle());
+                        mContext.startActivity(intent2);
+                    }
+
                 }
             }
         });

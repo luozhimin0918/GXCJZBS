@@ -197,12 +197,13 @@ public class fragment_zb extends Fragment implements OnClickListener {
                             showLoginDialog("null");
 
                         }else{
-                            intent2.putExtra(
-                                    "url",
-                                    slideShow.get(position).getUrl());
-                            intent2.putExtra("from", "main");
-                            intent2.putExtra("title", slideShow.get(position).getTitle());
-                            startActivity(intent2);
+                            if(!TextUtils.isEmpty(slideShow.get(position).getUrl())){
+                                intent2.putExtra("url", slideShow.get(position).getUrl());
+                                intent2.putExtra("from", "main");
+                                intent2.putExtra("title", slideShow.get(position).getTitle());
+                                startActivity(intent2);
+                            }
+
                         }
 
                     }
