@@ -195,6 +195,8 @@ public class Fragment_chat extends Fragment {
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                             i = 15;
+                        } catch (NullPointerException e){
+                            i=15;
                         }
                     }
                     i = i - 1;
