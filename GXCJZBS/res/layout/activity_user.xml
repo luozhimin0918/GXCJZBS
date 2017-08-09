@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:id="@+id/user_back"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -36,7 +36,7 @@
             android:id="@+id/zx_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
+            android:layout_marginRight="70dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="个人资料"

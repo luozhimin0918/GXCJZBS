@@ -23,7 +23,6 @@ dependencies {
     compile files('libs/gensee_hb.jar')
     compile files('libs/gensee_rtmpplayer.jar')
     compile project(':convenientbanner')
-    compile files('libs/glide-3.7.0.jar')
     compile 'com.pnikosis:materialish-progress:1.7'
 }
 android {
@@ -62,10 +61,11 @@ android {
     buildTypes {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"//是否输出LOG信息
-            minifyEnabled true//混淆编译
+            minifyEnabled false//混淆编译
             zipAlignEnabled true
             //移除无用的资源文件
-            shrinkResources true
+
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             signingConfig signingConfigs.config
         }
