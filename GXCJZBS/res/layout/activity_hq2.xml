@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="联系客服"
+            android:text="@string/lianxikefu"
             android:textColor="?attr/rl_tv"
             android:textSize="18sp"/>
         <LinearLayout
