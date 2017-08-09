@@ -13,6 +13,7 @@ dependencies {
     allprojects {
         repositories {
             mavenCentral()
+            maven { url "https://jitpack.io" }
         }
     }
     compile project(':Lib_autobahn')
@@ -25,6 +26,8 @@ dependencies {
     compile project(':convenientbanner')
     compile 'com.pnikosis:materialish-progress:1.7'
     compile files('libs/core_zxing.jar')
+    compile 'com.github.luozhimin0918.LuoComLibJitPack:percent-support-extends:m1.0.34'
+    compile files('libs/super_7.jar')
 }
 android {
 //
