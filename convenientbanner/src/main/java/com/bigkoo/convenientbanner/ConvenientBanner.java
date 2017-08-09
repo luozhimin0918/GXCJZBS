@@ -161,7 +161,7 @@ public class ConvenientBanner<T> extends LinearLayout {
         for (int count = 0; count < mDatas.size(); count++) {
             // 翻页指示的点
             ImageView pointView = new ImageView(getContext());
-            pointView.setPadding(5, 0, 5, 0);
+            pointView.setPadding(10, 0, 10, 0);
             if (mPointViews.isEmpty())
                 pointView.setImageResource(page_indicatorId[1]);
             else
