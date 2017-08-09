@@ -223,7 +223,7 @@ public class fragment_zb extends Fragment implements OnClickListener {
         rollDotViewpager=new RollDotViewPager(getContext());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                SystemUtil.dp2px(getContext(), 105));
+                SystemUtil.dp2px(getContext(), 115));
 
         rollDotViewpager.setLayoutParams(lp);
 

@@ -47,17 +47,17 @@
                     android:layout_height="wrap_content"></LinearLayout>
                 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="12dp"
+                    android:layout_height="15dp"
                     android:background="@color/line_color2"/>
                 <ImageView
                     android:id="@+id/playBtn"
                     android:layout_width="match_parent"
-                    android:scaleType="fitXY"
+                    android:scaleType="center"
                     android:src="@drawable/play_bg"
-                    android:layout_height="245dp" />
+                    android:layout_height="225dp" />
                 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="12dp"
+                    android:layout_height="20dp"
                     android:background="@color/line_color2"/>
             </LinearLayout>
         </ScrollView>
