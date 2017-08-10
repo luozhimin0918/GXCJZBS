@@ -55,6 +55,7 @@ import com.jyh.gxcjzbs.common.utils.dialogutils.BounceTopEnter;
 import com.jyh.gxcjzbs.common.utils.dialogutils.NormalDialog;
 import com.jyh.gxcjzbs.common.my_interface.OnBtnClickL;
 import com.jyh.gxcjzbs.common.utils.dialogutils.SlideBottomExit;
+import com.jyh.gxcjzbs.view.AlertDialog;
 import com.jyh.gxcjzbs.view.PageLoadLayout;
 import com.jyh.gxcjzbs.view.RollDotViewPager;
 import com.jyh.gxcjzbs.view.RollViewPager;
@@ -194,7 +195,18 @@ public class fragment_zb extends Fragment implements OnClickListener {
                         List<String>  banAccessRole =slideShow.get(position).getBan_access_role();
                         String loginRid = SPUtils.getString(getContext(), SpConstant.USERINFO_LOGIN_RID);//
                         if(banAccessRole!=null&&banAccessRole.size()>0&&banAccessRole.contains(loginRid)){
-                            showLoginDialog("null");
+                            new AlertDialog(getContext())
+                                    .builder()
+                                    .setCancelable(true)
+                                    .setTitle("温馨提醒")
+                                    .setMsg(""+slideShow.get(position).getBan_access_msg())
+                                    .setPositiveButton("确定", new OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                        }
+                                    })
+                                    .show();
+
 
                         }else{
                             if(!TextUtils.isEmpty(slideShow.get(position).getUrl())){

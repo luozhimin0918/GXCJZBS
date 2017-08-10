@@ -27,6 +27,7 @@ import com.jyh.gxcjzbs.common.utils.dialogutils.BaseAnimatorSet;
 import com.jyh.gxcjzbs.common.utils.dialogutils.BounceTopEnter;
 import com.jyh.gxcjzbs.common.utils.dialogutils.NormalDialog;
 import com.jyh.gxcjzbs.common.utils.dialogutils.SlideBottomExit;
+import com.jyh.gxcjzbs.view.AlertDialog;
 
 import java.util.List;
 
@@ -77,7 +78,17 @@ public class MarketGridAdapter extends BaseListAdapter<NavIndextEntity.DataBean.
                List<String>  banAceessRole = dataList.get(position).getBan_access_role();
                 String loginRid = SPUtils.getString(mContext, SpConstant.USERINFO_LOGIN_RID);//
                 if(banAceessRole!=null&&banAceessRole.size()>0&&banAceessRole.contains(loginRid)){
-                    showLoginDialog("null");
+                    new AlertDialog(mContext)
+                            .builder()
+                            .setCancelable(true)
+                            .setTitle("温馨提醒")
+                            .setMsg(""+dataList.get(position).getBan_access_msg())
+                            .setPositiveButton("确定", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                }
+                            })
+                            .show();
 
                 }else {
                     if(!TextUtils.isEmpty(dataList.get(position).getUrl())){
