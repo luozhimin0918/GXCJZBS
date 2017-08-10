@@ -140,6 +140,8 @@ public class fragment_zb extends Fragment implements OnClickListener {
                         buttonShow=navinEntity.getData().getButton();
                         if(slideShow!=null&&slideShow.size()>0){
                             optionView();
+                        }else{
+                            convenientBanner.setVisibility(View.GONE);
                         }
                         if(buttonShow!=null&&buttonShow.size()>0){
                             optionViewTwo();
