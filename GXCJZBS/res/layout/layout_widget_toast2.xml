@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginBottom="60dp"
-    android:background="#CC000000"
+    android:background="@drawable/yuanjiao_border_black_bg"
     android:gravity="center"
     android:padding="8dp"
     android:textColor="#fff2f2f2"

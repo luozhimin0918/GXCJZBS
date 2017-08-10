@@ -173,10 +173,15 @@ public class FaceConversionUtil implements EmojiClearTool {
 	 */
 	public void getFileText(Context context, int i) {
 
-		threadnum = i;
-		chatEmoji_News = emoji.get(threadnum);
-		lists = emojiList.get(threadnum);
-		ParseData(EmojiFileUtils.getEmojiFile(context, i), context);
+		try{
+			threadnum = i;
+			chatEmoji_News = emoji.get(threadnum);
+			lists = emojiList.get(threadnum);
+			ParseData(EmojiFileUtils.getEmojiFile(context, i), context);
+		}catch (Exception e){
+
+		}
+
 	}
 
 	/**
