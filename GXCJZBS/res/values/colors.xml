@@ -82,6 +82,8 @@
     <color name="selectedPointColor">#000000</color>
     <color name="unselectedPointColor">#999999</color>
     <color name="line_color2">#fff7f7f7</color>
+    <color name="transparent">#00000000</color>
+
 
 
 </resources>
