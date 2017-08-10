@@ -421,8 +421,10 @@ public class Fragment_chat extends Fragment {
 
 
                     } else if ("401".equals(arg0.getString("code"))) {
+                        faceRelativeLayout.setCansend(true);
                         ToastView.makeText(application, "消息发送失败,Token已过期");
                     } else {
+                        faceRelativeLayout.setCansend(true);
                         ToastView.makeText(application, "消息发送失败," + arg0.getString("msg"));
                     }
                 } catch (Exception e) {
@@ -435,6 +437,7 @@ public class Fragment_chat extends Fragment {
             @Override
             public void onErrorResponse(VolleyError arg0) {
                 // TODO Auto-generated method stub
+                faceRelativeLayout.setCansend(true);
                 ToastView.makeText(application, "消息发送失败," + arg0);
             }
         }, map);
