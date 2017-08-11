@@ -24,10 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:textColor="@color/stock_table_head_item_color"
-        android:textSize="14sp" />
+        android:textSize="13sp" />
 
   <LinearLayout
       android:layout_marginTop="10dp"
@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:gravity="center"
-            android:textColor="@color/app_text_color"
+            android:textColor="@color/app_title_background"
             android:textSize="16sp" />
 
       <!-- <ImageView
@@ -64,7 +64,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text=""
-            android:textColor="@color/app_text_color"
+            android:textColor="@color/app_title_background"
             android:textSize="16sp"
              />
     </LinearLayout>
