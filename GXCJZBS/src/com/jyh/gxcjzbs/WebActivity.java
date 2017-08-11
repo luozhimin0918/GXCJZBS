@@ -51,7 +51,7 @@ public class WebActivity extends Activity {
 	private WebView webView;
 	private TextView tv;
 
-	private LinearLayout title;
+	private LinearLayout title,self_out_img;
 	private TextView title_tv;
 
 	private String summary_url;
@@ -61,7 +61,7 @@ public class WebActivity extends Activity {
 
 	private String url;
 	private String imageUrl;
-
+    private boolean isGoBack;
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +82,14 @@ public class WebActivity extends Activity {
 		title = (LinearLayout) findViewById(R.id.title);
 		title_tv = (TextView) findViewById(R.id.title_tv);
 		title.setVisibility(View.GONE);
+		self_out_img= (LinearLayout) findViewById(R.id.self_out_img);
 		progressBar= (ProgressBar) findViewById(R.id.web_progressBar);
-
+		self_out_img.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
 		if (null != getIntent().getStringExtra("from") && "main".equals(getIntent().getStringExtra("from"))) {
 			title.setVisibility(View.VISIBLE);
 			findViewById(R.id.self_fk_img).setOnClickListener(new OnClickListener() {
@@ -91,7 +97,16 @@ public class WebActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					finish();
+					if(isGoBack){
+						if(webView.canGoBack()){
+							webView.goBack();
+						}else{
+							finish();
+						}
+					}else{
+						finish();
+					}
+
 				}
 			});
 		}
@@ -120,6 +135,8 @@ public class WebActivity extends Activity {
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				// TODO Auto-generated method stub
 				// Log.i("kefu", "shouldOverrideUrlLoading" + url);
+				isGoBack=true;
+				self_out_img.setVisibility(View.VISIBLE);
 				return super.shouldOverrideUrlLoading(view, url);
 			}
 
@@ -379,5 +396,22 @@ public class WebActivity extends Activity {
 		protected void onPostExecute(String result) {
 			Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(isGoBack){
+			if(webView!=null){
+				if(webView.canGoBack()){
+					webView.goBack();
+				}else{
+					super.onBackPressed();
+				}
+
+			}
+		}else{
+			super.onBackPressed();
+		}
+
 	}
 }
