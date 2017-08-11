@@ -26,8 +26,8 @@ public class AlertDialog {
     private LinearLayout lLayout_bg;
     private TextView txt_title;
     private TextView txt_msg;
-    private Button btn_neg;
-    private Button btn_pos;
+    private TextView btn_neg;
+    private TextView btn_pos;
     private ImageView img_line;
     private Display display;
     private boolean showTitle = false;
@@ -53,9 +53,9 @@ public class AlertDialog {
         txt_title.setVisibility(View.GONE);
         txt_msg = (TextView) view.findViewById(R.id.txt_msg);
         txt_msg.setVisibility(View.GONE);
-        btn_neg = (Button) view.findViewById(R.id.btn_neg);
+        btn_neg = (TextView) view.findViewById(R.id.btn_neg);
         btn_neg.setVisibility(View.GONE);
-        btn_pos = (Button) view.findViewById(R.id.btn_pos);
+        btn_pos = (TextView) view.findViewById(R.id.btn_pos);
         btn_pos.setVisibility(View.GONE);
 //        img_line = (ImageView) view.findViewById(R.id.img_line);
 //        img_line.setVisibility(View.GONE);
