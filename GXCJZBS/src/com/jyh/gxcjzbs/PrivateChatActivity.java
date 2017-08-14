@@ -562,7 +562,10 @@ public class PrivateChatActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         try {
-            chatMsgAdapter.notifyDataSetChanged();
+            if(chatMsgAdapter!=null){
+                chatMsgAdapter.notifyDataSetChanged();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
