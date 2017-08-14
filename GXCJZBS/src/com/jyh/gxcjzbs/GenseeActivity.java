@@ -1314,7 +1314,7 @@ public class GenseeActivity extends FragmentActivity implements OnClickListener,
             } else if (type == 2) {
                 menu.setVisibility(View.VISIBLE);
                 GenseeActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-                if (FaceRelativeLayout.view.getVisibility() == View.VISIBLE) {
+                if (FaceRelativeLayout.viewFace.getVisibility() == View.VISIBLE) {
                 } else {
                     fragment_chat.rl_bottom.setVisibility(View.GONE);
                     if (isUp)

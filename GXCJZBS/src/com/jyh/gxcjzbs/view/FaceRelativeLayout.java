@@ -99,7 +99,7 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
     /**
      * 表情区域
      */
-    public static View view;
+    public static View viewFace;
 
     /**
      * 输入框
@@ -248,14 +248,14 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                     Init_Point();
                     Init_Data();
 
-                    if (view.getVisibility() == View.VISIBLE && isCT == 0) {
-                        view.setVisibility(View.GONE);
+                    if (viewFace.getVisibility() == View.VISIBLE && isCT == 0) {
+                        viewFace.setVisibility(View.GONE);
                     } else {
-                        view.setVisibility(View.VISIBLE);
+                        viewFace.setVisibility(View.VISIBLE);
                         boolean isOpen = imm.isActive();// isOpen若返回true，则表示输入法打开
                         if (isOpen) {
                             ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                                    view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                    viewFace.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         }
                     }
                     isCT = 0;
@@ -309,14 +309,14 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                     Init_Point();
                     Init_Data();
 
-                    if (view.getVisibility() == View.VISIBLE && isCT == 1) {
-                        view.setVisibility(View.GONE);
+                    if (viewFace.getVisibility() == View.VISIBLE && isCT == 1) {
+                        viewFace.setVisibility(View.GONE);
                     } else {
-                        view.setVisibility(View.VISIBLE);
+                        viewFace.setVisibility(View.VISIBLE);
                         boolean isOpen = imm.isActive();// isOpen若返回true，则表示输入法打开
                         if (isOpen) {
                             ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                                    view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                    viewFace.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         }
                     }
                     isCT = 1;
@@ -335,8 +335,8 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                 break;
             case R.id.et_sendmessage:
                 // 隐藏表情选择框
-                if (view.getVisibility() == View.VISIBLE) {
-                    view.setVisibility(View.GONE);
+                if (viewFace.getVisibility() == View.VISIBLE) {
+                    viewFace.setVisibility(View.GONE);
                 }
 
                 break;
@@ -348,8 +348,8 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
      */
     public boolean hideFaceView() {
         // 隐藏表情选择框
-        if (view.getVisibility() == View.VISIBLE) {
-            view.setVisibility(View.GONE);
+        if (viewFace.getVisibility() == View.VISIBLE) {
+            viewFace.setVisibility(View.GONE);
             return true;
         }
         return false;
@@ -419,17 +419,17 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                     Init_Point();
                     Init_Data();
 
-                    if (view.getVisibility() == View.VISIBLE && isCT == 0) {
-                        view.setVisibility(View.GONE);
+                    if (viewFace.getVisibility() == View.VISIBLE && isCT == 0) {
+                        viewFace.setVisibility(View.GONE);
                         Intent intent = new Intent("hideorshow");
                         intent.putExtra("hideorshow", 2);
                         context.sendBroadcast(intent);
                     } else {
-                        view.setVisibility(View.VISIBLE);
+                        viewFace.setVisibility(View.VISIBLE);
                         boolean isOpen = imm.isActive();// isOpen若返回true，则表示输入法打开
                         if (isOpen) {
                             ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                                    view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                    viewFace.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         }
                     }
                     isCT = 0;
@@ -500,17 +500,17 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                     Init_Point();
                     Init_Data();
 
-                    if (view.getVisibility() == View.VISIBLE && isCT == 1) {
-                        view.setVisibility(View.GONE);
+                    if (viewFace.getVisibility() == View.VISIBLE && isCT == 1) {
+                        viewFace.setVisibility(View.GONE);
                         Intent intent = new Intent("hideorshow");
                         intent.putExtra("hideorshow", 2);
                         context.sendBroadcast(intent);
                     } else {
-                        view.setVisibility(View.VISIBLE);
+                        viewFace.setVisibility(View.VISIBLE);
                         boolean isOpen = imm.isActive();// isOpen若返回true，则表示输入法打开
                         if (isOpen) {
                             ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                                    view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                    viewFace.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         }
                     }
                     isCT = 1;
@@ -559,7 +559,7 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
             }
         });
         recyclerView.setAdapter(mAdapter);
-        view = findViewById(R.id.ll_facechoose);
+        viewFace = findViewById(R.id.ll_facechoose);
     }
 
     /**
@@ -786,13 +786,13 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
     @Override
     public void close() {
         // 隐藏表情选择框
-        if (view.getVisibility() == View.VISIBLE) {
-            view.setVisibility(View.GONE);
+        if (viewFace.getVisibility() == View.VISIBLE) {
+            viewFace.setVisibility(View.GONE);
         }
     }
 
     public boolean getviewshow() {
-        if (view.getVisibility() == View.GONE)
+        if (viewFace.getVisibility() == View.GONE)
             return false;
         return true;
     }

@@ -1381,7 +1381,7 @@ public class GotyeLiveActivity extends FragmentActivity implements OnClickListen
             } else if (type == 2) {
                 menu.setVisibility(View.VISIBLE);
                 GotyeLiveActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-                if (FaceRelativeLayout.view.getVisibility() == View.VISIBLE) {
+                if (FaceRelativeLayout.viewFace.getVisibility() == View.VISIBLE) {
                 } else {
                     fragment_chat.rl_bottom.setVisibility(View.GONE);
                     if (isUp)
