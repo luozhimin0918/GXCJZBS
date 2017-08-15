@@ -322,23 +322,6 @@ public class FaceRelaPriveLayout extends RelativeLayout implements OnItemClickLi
                     isCT = 1;
                 }
                 break;
-            case R.id.chat_login:
-             /*   try {
-                    GotyeLiveActivity.functionBtn.setText("返回");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                ToastView.makeText(context, "登录");*/
-
-
-                if(backFinshListening!=null){
-                    backFinshListening.setBackFinsh();
-                }
-
-                Intent intent = new Intent(getContext(), Login_One.class);
-                intent.putExtra("from", "live");
-                context.startActivity(intent);
-                break;
             case R.id.et_sendmessage:
                 // 隐藏表情选择框
                 if (viewFace.getVisibility() == View.VISIBLE) {
@@ -450,18 +433,20 @@ public class FaceRelaPriveLayout extends RelativeLayout implements OnItemClickLi
                 return false;
             }
         });
-        findViewById(R.id.chat_login).setOnClickListener(this);
-       /* findViewById(R.id.chat_login).setOnTouchListener(new OnTouchListener() {
+        findViewById(R.id.chat_login).setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() != MotionEvent.ACTION_DOWN)
                     return false;
-                Intent intent = new Intent("hideorshow");
-                intent.putExtra("hideorshow", 3);
-                context.sendBroadcast(intent);
+                if(backFinshListening!=null){
+                    backFinshListening.setBackFinsh();
+                }
+                Intent intent = new Intent(context, Login_One.class);
+                intent.putExtra("from", "live");
+                context.startActivity(intent);
                 return false;
             }
-        });*/
+        });
         findViewById(R.id.caitiao).setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
