@@ -270,12 +270,12 @@ public class Register_One extends Activity implements OnClickListener {
     public void finish() {
         // TODO Auto-generated method stub
         hintKbTwo();
-        if (GotyeLiveActivity.live != null) {
+       /* if (GotyeLiveActivity.live != null) {
            GotyeLiveActivity.live.changeTitle();
         }
         if (GenseeActivity.live != null) {
             GenseeActivity.live.changeTitle();
-        }
+        }*/
         super.finish();
     }
 

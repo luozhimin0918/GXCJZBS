@@ -323,12 +323,12 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                 }
                 break;
             case R.id.chat_login:
-                try {
+               /* try {
                     GotyeLiveActivity.functionBtn.setText("返回");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                ToastView.makeText(context, "登录");
+                ToastView.makeText(context, "登录");*/
                 Intent intent = new Intent(context, Login_One.class);
                 intent.putExtra("from", "live");
                 context.startActivity(intent);
@@ -437,7 +437,8 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                 return false;
             }
         });
-        findViewById(R.id.chat_login).setOnTouchListener(new OnTouchListener() {
+        findViewById(R.id.chat_login).setOnClickListener(this);
+       /* findViewById(R.id.chat_login).setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() != MotionEvent.ACTION_DOWN)
@@ -447,7 +448,7 @@ public class FaceRelativeLayout extends RelativeLayout implements OnItemClickLis
                 context.sendBroadcast(intent);
                 return false;
             }
-        });
+        });*/
         findViewById(R.id.caitiao).setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

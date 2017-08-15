@@ -272,12 +272,12 @@ public class Login_One extends Activity implements OnClickListener {
         // TODO Auto-generated method stub
         if (isFromLive)
             hintKbTwo();
-        if (GotyeLiveActivity.live != null) {
+       /* if (GotyeLiveActivity.live != null) {
             GotyeLiveActivity.live.changeTitle();
         }
         if (GenseeActivity.live != null) {
             GenseeActivity.live.changeTitle();
-        }
+        }*/
         if (LoginInfoUtils.needRequireLogin(this)) {
 
             bas_in = new BounceTopEnter();
