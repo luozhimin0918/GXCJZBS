@@ -168,7 +168,7 @@ public class Fragment_function extends Fragment implements OnItemClickListener {
                 break;
             case R.drawable.function9:
                 // 注册
-                listener.isChange(true);
+//                listener.isChange(true);
                 intent2 = new Intent(getActivity(), Register_One.class);
                 intent2.putExtra("from", "live");
                 startActivity(intent2);
