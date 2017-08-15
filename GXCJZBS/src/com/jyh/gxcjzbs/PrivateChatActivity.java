@@ -44,7 +44,7 @@ import com.jyh.gxcjzbs.common.utils.SPUtils;
 import com.jyh.gxcjzbs.common.utils.SystemUtils;
 import com.jyh.gxcjzbs.common.utils.ToastView;
 import com.jyh.gxcjzbs.common.utils.volleyutil.NormalPostRequest;
-import com.jyh.gxcjzbs.view.FaceRelativeLayout;
+import com.jyh.gxcjzbs.view.FaceRelaPriveLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -99,7 +99,7 @@ public class PrivateChatActivity extends FragmentActivity {
     private PrivateChatUserAdapter userAdapter;
     private TextView titleTv;
     private boolean isQuit = true;
-    private FaceRelativeLayout faceRelativeLayout;
+    private FaceRelaPriveLayout faceRelativeLayout;
 
     private void initView() {
         userListView = (ListView) findViewById(R.id.userListView);
@@ -118,7 +118,7 @@ public class PrivateChatActivity extends FragmentActivity {
         ivImage = (LinearLayout) findViewById(R.id.iv_image);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         llFacechoose = (LinearLayout) findViewById(R.id.ll_facechoose);
-        faceRelativeLayout = (FaceRelativeLayout) findViewById(R.id.layout);
+        faceRelativeLayout = (FaceRelaPriveLayout) findViewById(R.id.layout);
         faceRelativeLayout.hideCT();
         chatLayout = (LinearLayout) findViewById(R.id.chatLayout);
         titleTv = (TextView) findViewById(R.id.title_tv);
@@ -218,7 +218,7 @@ public class PrivateChatActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_chat);
         initView();
-        setDialogStyle();
+//        setDialogStyle();
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         application = (KXTApplication) getApplication();
         try {

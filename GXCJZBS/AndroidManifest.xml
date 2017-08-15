@@ -115,7 +115,7 @@
             android:name=".PrivateChatActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/myDialogTheme"/>
+        />
 
         <service android:name="com.jyh.gxcjzbs.service.ChatService">
             <intent-filter android:priority="1000">
