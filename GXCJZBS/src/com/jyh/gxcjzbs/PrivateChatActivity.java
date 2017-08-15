@@ -67,7 +67,7 @@ import java.util.TimerTask;
  * 创建日期:2017/7/5.
  */
 
-public class PrivateChatActivity extends FragmentActivity {
+public class PrivateChatActivity extends FragmentActivity implements FaceRelaPriveLayout.BackFinshListening{
 
     public static String INTENT_TNAME = "tname";
     public static String INTENT_TUID = "tuid";
@@ -219,6 +219,7 @@ public class PrivateChatActivity extends FragmentActivity {
         setContentView(R.layout.activity_private_chat);
         initView();
 //        setDialogStyle();
+        faceRelativeLayout.setBackInterface(this);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         application = (KXTApplication) getApplication();
         try {
@@ -587,5 +588,10 @@ public class PrivateChatActivity extends FragmentActivity {
 
     public void setQuit(boolean isQuit) {
         this.isQuit = isQuit;
+    }
+
+    @Override
+    public void setBackFinsh() {
+        finish();
     }
 }

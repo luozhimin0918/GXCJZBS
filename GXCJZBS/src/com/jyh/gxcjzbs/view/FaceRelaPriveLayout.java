@@ -329,6 +329,12 @@ public class FaceRelaPriveLayout extends RelativeLayout implements OnItemClickLi
                     e.printStackTrace();
                 }
                 ToastView.makeText(context, "登录");*/
+
+
+                if(backFinshListening!=null){
+                    backFinshListening.setBackFinsh();
+                }
+
                 Intent intent = new Intent(getContext(), Login_One.class);
                 intent.putExtra("from", "live");
                 context.startActivity(intent);
@@ -343,6 +349,13 @@ public class FaceRelaPriveLayout extends RelativeLayout implements OnItemClickLi
         }
     }
 
+    public  interface  BackFinshListening{
+        public void setBackFinsh();
+    }
+    private BackFinshListening backFinshListening;
+    public void setBackInterface(BackFinshListening backInterface){
+        this.backFinshListening=backInterface;
+    }
     /**
      * 隐藏表情选择框
      */
