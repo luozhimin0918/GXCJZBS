@@ -180,7 +180,7 @@ public class Fragment_function extends Fragment implements OnItemClickListener {
                 break;
             case R.drawable.function10:
                 //登录
-                listener.isChange(true);
+//                listener.isChange(true);
                 intent3 = new Intent(getActivity(), Login_One.class);
                 intent3.putExtra("from", "live");
                 startActivity(intent3);
